@@ -43,16 +43,24 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             foreach (var checkedItem in checkoutOrder)
             {
                 var inventory = _inventoryService.FindAll().FirstOrDefault(inv => inv.ProductId == checkedItem.ProductId && inv.Color == checkedItem.Color && inv.Size == checkedItem.Size);
-                if (inventory is null) continue;
-                if (checkedItem.Quantity >= inventory.Quantity) continue;
+                if (inventory is null)
+                {
+                    _orderRepository.DeleteOne(order.Id);
+                    continue;
+                }
+                if (checkedItem.Quantity >= inventory.Quantity)
+                {
+                    _orderRepository.DeleteOne(order.Id);
+                    continue;
+                }
                 OrderItemCreateDto orderItem = new()
-                    {
-                        OrderId = order.Id,
-                        InventoryId = inventory.Id,
-                        Quantity = checkedItem.Quantity,
-                        TotalPrice = checkedItem.Quantity * inventory.Price
-                    };
-                    _orderItemService.CreateOne(orderItem);
+                {
+                    OrderId = order.Id,
+                    InventoryId = inventory.Id,
+                    Quantity = checkedItem.Quantity,
+                    TotalPrice = checkedItem.Quantity * inventory.Price
+                };
+                _orderItemService.CreateOne(orderItem);
             }
             return order;
         }
@@ -60,7 +68,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
         public Order? DeleteOne(Guid OrderId)
         {
             var deleteOrder = _orderRepository.FindOne(OrderId);
-            if(deleteOrder == null) return null;
+            if (deleteOrder == null) return null;
             return _orderRepository.DeleteOne(OrderId);
         }
     }
