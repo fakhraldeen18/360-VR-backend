@@ -58,7 +58,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
                 Id = p.Id,
                 CategoryId = p.CategoryId,
                 Name = p.Name,
-                Price = p.Price
+                Image = p.Image,
+                Description = p.Description
                 // Map other properties as needed
             })
             .ToList();
@@ -75,7 +76,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             {
                 product.Name = updatedProduct.Name;
                 product.CategoryId = updatedProduct.CategoryId;
-                product.Price = updatedProduct.Price;
+                product.Description = updatedProduct.Description;
+                product.Image = updatedProduct.Image;
                 _productRepository.UpdateOne(product);
 
                 return _mapper.Map<ProductReadDto>(product);
