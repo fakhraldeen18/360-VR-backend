@@ -11,5 +11,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstractions
         public string? Login(UserLogInDto user);
         public bool DeleteOne(Guid userId);
         public UserReadDto? UpdateOne(Guid userId, UserUpdateDto user);
+        public UserReadDto? UpdateRole(Guid userId, UserUpdateRoleDto newValue);
     }
 }

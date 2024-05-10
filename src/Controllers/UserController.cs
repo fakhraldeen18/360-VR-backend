@@ -14,7 +14,7 @@ public class UserController : CustomBaseController
     }
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Customer")]
     public ActionResult<IEnumerable<UserReadDto>> FindAll([FromQuery(Name = "limit")] int limit, [FromQuery(Name = "offset")] int offset)
     {
         return Ok(_userService.FindAll(limit, offset));
@@ -71,5 +71,14 @@ public class UserController : CustomBaseController
         UserReadDto? isUser = _userService.FindOne(userId);
         if (isUser == null) return NotFound();
         return Accepted(_userService.UpdateOne(userId, user));
+    }
+    [HttpPatch("updateRole/{userId}")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<UserReadDto?> UpdateRole(Guid userId, [FromBody] UserUpdateRoleDto user)
+    {
+        UserReadDto? isUser = _userService.FindOne(userId);
+        if (isUser == null) return NotFound();
+        return Accepted(_userService.UpdateRole(userId, user));
     }
 }
