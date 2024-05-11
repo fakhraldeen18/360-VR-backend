@@ -39,7 +39,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Order> CreateOne([FromBody] List<CheckoutDto> checkoutOrder)
+        public ActionResult<OrderReadDto> CreateOne([FromBody] List<CheckoutDto> checkoutOrder)
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (checkoutOrder != null && userId != null)
