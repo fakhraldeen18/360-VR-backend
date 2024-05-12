@@ -2,15 +2,29 @@
 
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstractions;
 using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.Databases;
+using sda_onsite_2_csharp_backend_teamwork.src.Enums;
 using sda_onsite_2_csharp_backend_teamwork.src.Repositories;
 using sda_onsite_2_csharp_backend_teamwork.src.Services;
 using sdaonsite_2_csharp_backend_teamwork.src.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+var _config = builder.Configuration;
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(@$"Host={_config["Db:Host"]};Username={_config["Db:Username"]};Database={_config["Db:Database"]};Password={_config["Db:Password"]}");
+dataSourceBuilder.MapEnum<Role>();
+
+var dataSource = dataSourceBuilder.Build();
+builder.Services.AddDbContext<DatabaseContext>((options) =>
+{
+    options.UseNpgsql(dataSource).UseSnakeCaseNamingConvention();
+});
 
 builder.Services.AddControllers();
 
