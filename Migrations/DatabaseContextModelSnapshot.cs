@@ -92,7 +92,6 @@ namespace Backend.Migrations
                         .HasColumnName("date");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("status");
 
