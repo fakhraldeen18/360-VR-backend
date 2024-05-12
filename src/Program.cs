@@ -37,6 +37,21 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly); // Find the mapper who
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddDbContext<DatabaseContext>();// inject the database context 
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins(builder.Configuration["Cors:Origin"]!)
+                          .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .SetIsOriginAllowed((host) => true)
+                            .AllowCredentials();
+                      });
+});
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(
     options =>
@@ -83,11 +98,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 app.MapControllers();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseAuthentication();// Authentication first then Authorization
 app.UseAuthorization();
