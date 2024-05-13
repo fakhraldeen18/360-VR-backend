@@ -9,11 +9,14 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
     public class ProductRepository : IProductRepository
     {
         private DbSet<Product> _products;
+        private DbSet<Inventory> _inventories;
         private DatabaseContext _databaseContext;
+
 
         public ProductRepository(DatabaseContext databaseContext)
         {
             _products = databaseContext.Products;
+            _inventories = databaseContext.Inventories;
             _databaseContext = databaseContext;
         }
         public Product CreateOne(Product product)
@@ -28,13 +31,25 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
             _databaseContext.SaveChanges();
             return true;
         }
-        public IEnumerable<Product> FindAll(int limit, int offset)
+        public IEnumerable<ProductJoinDto> FindAll(int limit, int offset)
         {
+            var products = from product in _products
+                           join inventory in _inventories on product.Id equals inventory.ProductId
+                           select new ProductJoinDto
+                           {
+                               Id = product.Id,
+                               CategoryId = product.CategoryId,
+                               Name = product.Name,
+                               Description = product.Description,
+                               Image = product.Image,
+                               Price = inventory.Price,
+                               Quantity = inventory.Quantity
+                           };
             if (limit == 0 & offset == 0)
             {
-                return _products;
+                return products;
             }
-            return _products.Skip(offset).Take(limit);
+            return products.Skip(offset).Take(limit);
         }
         public Product? FindOne(Guid productId)
         {
@@ -53,6 +68,27 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
             _databaseContext.SaveChanges();
 
             return UpdateProduct;
+        }
+        public IEnumerable<ProductJoinDto> JoinProduct()
+        {
+
+            var invGroups = from product in _products
+                            join inventory in _inventories on product.Id equals inventory.ProductId
+                            select new ProductJoinDto
+                            {
+                                Id = product.Id,
+                                CategoryId = product.CategoryId,
+                                Name = product.Name,
+                                Description = product.Description,
+                                Image = product.Image,
+                                Price = inventory.Price,
+                                Quantity = inventory.Quantity
+                            };
+            foreach (var item in invGroups)
+            {
+                Console.WriteLine($"===={item.Name}");
+            }
+            return invGroups;
         }
     }
 }

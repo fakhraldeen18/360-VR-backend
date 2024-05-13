@@ -78,7 +78,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             var users = _userRepository.FindAll(limit, offset);
             var usersRead = users.Select(user => _mapper.Map<UserReadDto>(user));
             return usersRead;
-
         }
 
         public UserReadDto? FindOne(Guid userId)

@@ -4,7 +4,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstractions
 {
     public interface IProductRepository
     {
-        public IEnumerable<Product> FindAll(int limit, int offset);
+        public IEnumerable<ProductJoinDto> FindAll(int limit, int offset);
         public Product? FindOne(Guid productId);
         public List<Product> Search(string keyword);
         public Product CreateOne(Product product);

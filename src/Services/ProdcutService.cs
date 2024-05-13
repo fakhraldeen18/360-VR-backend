@@ -35,11 +35,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
                 return false;
             }
         }
-        public IEnumerable<ProductReadDto> FindAll(int limit, int offset)
+        public IEnumerable<ProductJoinDto> FindAll(int limit, int offset)
         {
-            IEnumerable<Product> products = _productRepository.FindAll(limit, offset);
-            return products.Select(_mapper.Map<ProductReadDto>);
-
+            IEnumerable<ProductJoinDto> products = _productRepository.FindAll(limit, offset);
+            return products.Select(_mapper.Map<ProductJoinDto>);
         }
         public ProductReadDto FindOne(Guid productId)
         {
