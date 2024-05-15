@@ -39,11 +39,15 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
                            {
                                Id = product.Id,
                                CategoryId = product.CategoryId,
+                               InventoryId = inventory.Id,
                                Name = product.Name,
                                Description = product.Description,
+                               ShortDesc = product.ShortDesc,
                                Image = product.Image,
                                Price = inventory.Price,
-                               Quantity = inventory.Quantity
+                               Quantity = inventory.Quantity,
+                               Size = inventory.Size,
+                               Color = inventory.Color
                            };
             if (limit == 0 & offset == 0)
             {
@@ -69,27 +73,27 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
 
             return UpdateProduct;
         }
-        public IEnumerable<ProductJoinDto> JoinProduct()
-        {
+        // public IEnumerable<ProductJoinDto> JoinProduct()
+        // {
 
-            var invGroups = from product in _products
-                            join inventory in _inventories on product.Id equals inventory.ProductId
-                            select new ProductJoinDto
-                            {
-                                Id = product.Id,
-                                CategoryId = product.CategoryId,
-                                Name = product.Name,
-                                Description = product.Description,
-                                Image = product.Image,
-                                Price = inventory.Price,
-                                Quantity = inventory.Quantity
-                            };
-            foreach (var item in invGroups)
-            {
-                Console.WriteLine($"===={item.Name}");
-            }
-            return invGroups;
-        }
+        //     var invGroups = from product in _products
+        //                     join inventory in _inventories on product.Id equals inventory.ProductId
+        //                     select new ProductJoinDto
+        //                     {
+        //                         Id = product.Id,
+        //                         CategoryId = product.CategoryId,
+        //                         Name = product.Name,
+        //                         Description = product.Description,
+        //                         Image = product.Image,
+        //                         Price = inventory.Price,
+        //                         Quantity = inventory.Quantity
+        //                     };
+        //     foreach (var item in invGroups)
+        //     {
+        //         Console.WriteLine($"===={item.Name}");
+        //     }
+        //     return invGroups;
+        // }
     }
 }
 
