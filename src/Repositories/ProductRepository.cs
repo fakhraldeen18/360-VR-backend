@@ -11,6 +11,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
         private DbSet<Product> _products;
         private DbSet<Inventory> _inventories;
         private DatabaseContext _databaseContext;
+        
 
 
         public ProductRepository(DatabaseContext databaseContext)
@@ -42,7 +43,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repositories
                                InventoryId = inventory.Id,
                                Name = product.Name,
                                Description = product.Description,
-                               ShortDesc = product.ShortDesc,
                                Image = product.Image,
                                Price = inventory.Price,
                                Quantity = inventory.Quantity,
