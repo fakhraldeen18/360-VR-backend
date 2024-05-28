@@ -30,6 +30,17 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controllers
             InventoryReadDto? inventory = _inventoryService.FindOne(inventoryId);
             return Ok(inventory);
         }
+        [HttpGet("product/{productId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<IEnumerable<InventoryReadDto>> ProductInventory(Guid productId)
+        {
+            IEnumerable<InventoryReadDto> inventories = _inventoryService.FindAll();
+            InventoryReadDto? isFound = inventories.FirstOrDefault(inventory => inventory.ProductId == productId);
+            if (isFound == null) return NoContent();
+            IEnumerable<InventoryReadDto> inventory = _inventoryService.ProductInventory(productId);
+            return Ok(inventory);
+        }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

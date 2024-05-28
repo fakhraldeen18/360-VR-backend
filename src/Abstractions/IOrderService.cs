@@ -9,7 +9,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstractions
 {
     public interface IOrderService
     {
-        public IEnumerable<Order> FindAll();
+        public IEnumerable<OrderReadDto> FindAll();
         public Order? FindOne(Guid OrderId);
         public OrderReadDto CreateOne(List<CheckoutDto> order, string userId);
         public Order? DeleteOne(Guid OrderId);

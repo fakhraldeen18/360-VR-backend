@@ -92,7 +92,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             var user = _userRepository.FindOne(userId);
             if (user == null) return null;
             user.Name = newValue.Name;
-            user.Password = newValue.Password;
             user.Email = newValue.Email;
             user.Phone = newValue.Phone;
             _userRepository.UpdateOne(user);

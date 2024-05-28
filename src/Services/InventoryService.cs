@@ -39,6 +39,14 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             return readInventories;
 
         }
+        public IEnumerable<InventoryReadDto> ProductInventory(Guid productId)
+        {
+            IEnumerable<Inventory>? inventories = _inventoryRepository.FindAll();
+            var productInventory = inventories.Where(invent => invent.ProductId == productId);
+            IEnumerable<InventoryReadDto> readInventories = productInventory.Select(item => _mapper.Map<InventoryReadDto>(item));
+            return readInventories;
+
+        }
 
         public InventoryReadDto? FindOne(Guid inventoryId)
         {
@@ -56,6 +64,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             inventory.Quantity = updateInventory.Quantity;
             inventory.Color = updateInventory.Color;
             inventory.Size = updateInventory.Size;
+            inventory.Price = updateInventory.Price;
             _inventoryRepository.UpdateOne(inventory);
             return _mapper.Map<InventoryReadDto>(inventory);
         }

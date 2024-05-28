@@ -25,10 +25,11 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<Order> FindAll()
-        {
-            return _orderRepository.FindAll();
-
+        public IEnumerable<OrderReadDto> FindAll()
+        { 
+            var orders =_orderRepository.FindAll();
+            var readerOrder = orders.Select((order)=> _mapper.Map<OrderReadDto>(order));
+            return readerOrder;
         }
 
         public Order? FindOne(Guid orderId)

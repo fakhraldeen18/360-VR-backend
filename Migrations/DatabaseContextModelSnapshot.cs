@@ -169,10 +169,6 @@ namespace Backend.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<string>("ShortDesc")
-                        .HasColumnType("text")
-                        .HasColumnName("short_desc");
-
                     b.HasKey("Id")
                         .HasName("pk_products");
 

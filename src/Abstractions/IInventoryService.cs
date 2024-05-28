@@ -10,6 +10,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstractions
         public InventoryReadDto? FindOne(Guid inventoryId);
         public InventoryReadDto? CreateOne(InventoryCreateDto newInventory);
         public bool DeleteOne(Guid inventoryId);
+        public IEnumerable<InventoryReadDto> ProductInventory(Guid productId);
         public InventoryReadDto? UpdateOne(Guid inventoryId, InventoryUpdateDto updateInventory);
     }
 }

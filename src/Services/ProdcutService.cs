@@ -35,9 +35,12 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
                 return false;
             }
         }
-        public IEnumerable<ProductJoinDto> FindAll(int limit, int offset)
+        public IEnumerable<ProductJoinDto> FindAll(string? search, int limit, int offset)
         {
             IEnumerable<ProductJoinDto> products = _productRepository.FindAll(limit, offset);
+            if(search != null){
+                products = products.Where((product)=> product.Name.ToLower().Contains(search.ToLower()));
+            }
             return products.Select(_mapper.Map<ProductJoinDto>);
         }
         public ProductReadDto FindOne(Guid productId)
@@ -46,23 +49,16 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Services
             return _mapper.Map<ProductReadDto>(products);
         }
 
-        public List<ProductReadDto> Search(string keyword)
+        public List<ProductReadDto> Search(string? keyword)
         {
             // Assuming _context is your DbContext and Products is your DbSet<Product>
-            var foundProducts = _productRepository.Search(keyword)
-            .Where(p => p.Name.Contains(keyword))
-            .Select(p => new ProductReadDto
-            {
-                // Map your Product entity to ProductReadDto
-                Id = p.Id,
-                CategoryId = p.CategoryId,
-                Name = p.Name,
-                Image = p.Image,
-                Description = p.Description
-                // Map other properties as needed
-            })
-            .ToList();
-            return foundProducts;
+            var foundProducts = _productRepository.Search();
+            if(keyword != null){
+                foundProducts = foundProducts.Where((product)=>product.Name.ToLower().Contains(keyword.ToLower()));
+            }
+            var readProducts = foundProducts.Select(_mapper.Map<ProductReadDto>);
+            return readProducts.ToList();
+
         }
 
 

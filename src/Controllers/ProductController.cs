@@ -14,10 +14,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controllers
         }
         [HttpGet] //Action methods GET
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<ProductJoinDto>> FindAll([FromQuery(Name = "limit")] int limit, [FromQuery(Name = "offset")] int offset)
+        public ActionResult<IEnumerable<ProductJoinDto>> FindAll([FromQuery(Name = "search")] string? search, [FromQuery(Name = "limit")] int limit, [FromQuery(Name = "offset")] int offset)
         {
 
-            return Ok(_productService.FindAll(limit, offset));
+            return Ok(_productService.FindAll(search, limit, offset));
         }
 
         [HttpGet("{productId}")] //Action methods GET with Route attributes
@@ -33,7 +33,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controllers
         [HttpGet("search")] //Action method for searching products by keyword
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ProductReadDto>> Search(string keyword)
+        public ActionResult<List<ProductReadDto>> Search([FromQuery(Name = "searchBy" )]string? keyword)
         {
             List<ProductReadDto> foundProducts = _productService.Search(keyword);
             if (foundProducts.Count == 0)

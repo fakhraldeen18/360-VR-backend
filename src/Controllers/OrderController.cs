@@ -19,7 +19,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<Order>> FindAll()
+        public ActionResult<IEnumerable<OrderReadDto>> FindAll()
         {
             return Ok(_orderService.FindAll());
 
